@@ -1,4 +1,4 @@
-FROM alpine:3.13.5
+FROM alpine:3.19.1
 
 RUN apk add -U \
         bash \
