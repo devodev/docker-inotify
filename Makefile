@@ -3,7 +3,7 @@ SHELL := /bin/bash
 ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 IMAGE := devodev/inotify
-VERSION ?= 0.1.1
+VERSION ?= 0.2.0
 
 LONG_TAG  := $(subst $(eval) ,.,$(wordlist 1,3,$(subst ., ,$(VERSION:%=%))))
 SHORT_TAG := $(subst $(eval) ,.,$(wordlist 1,2,$(subst ., ,$(VERSION:%=%))))
