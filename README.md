@@ -23,19 +23,29 @@
 
 From the linux man pages (<https://man7.org/linux/man-pages/man7/inotify.7.html>):
 
-*The inotify API provides a mechanism for monitoring filesystem events. Inotify can be used to monitor individual files, or to monitor directories. When a directory is monitored, inotify will return events for the directory itself, and for files inside the directory.*
+*The inotify API provides a mechanism for monitoring filesystem events. Inotify can be used to
+monitor individual files, or to monitor directories. When a directory is monitored, inotify will
+return events for the directory itself, and for files inside the directory.*
 
-Two command-line tools are distributed as part of the `inotify-tools` package (`inotifywait`, `inotifywatch`) and allows to interact with the Inotify API.
+Two command-line tools are distributed as part of the `inotify-tools` package (`inotifywait`,
+`inotifywatch`) and allows to interact with the Inotify API.
 
 ## How to use this image
 
-`docker-inotify` provides an Alpine-based image that contains the `inotify-tools` package, as well as `bash` and a series of network-related command-line utilities such as `curl`, `netcat`, etc. It also includes a lightweight `inotifywait.sh` script that can watch files and/or directories and send events to a user-defined script. The script can be entirely configured through environment variables.
+`docker-inotify` provides an Alpine-based image that contains the `inotify-tools` package, as well
+as `bash` and a series of network-related command-line utilities such as `curl`, `netcat`, etc. It
+also includes a lightweight `inotifywait.sh` script that can watch files and/or directories and send
+events to a user-defined script. The script can be entirely configured through environment
+variables.
 
-The main use-case for this image is to provide an easy way to trigger an action based on a configuration file change. All you need to do is mount a volume in the sidecar to be monitored, and provide a script to trigger when an event is received.
+The main use-case for this image is to provide an easy way to trigger an action based on a
+configuration file change. All you need to do is mount a volume in the sidecar to be monitored, and
+provide a script to trigger when an event is received.
 
 ### How it works
 
-An `inotifywait` process watches INOTIFY_TARGET, and runs INOTIFY_SCRIPT with the triggered event data as arguments.
+An `inotifywait` process watches INOTIFY_TARGET, and runs INOTIFY_SCRIPT with the triggered event
+data as arguments.
 
 When using the default configuration values, the script will receive:
 
@@ -43,8 +53,8 @@ When using the default configuration values, the script will receive:
 | ---- | --------------------------------------- |
 | `$1` | timestamp                               |
 | `$2` | watched file/directory path             |
-| `$3` | event names                             |
-| `$4` | filenames (if a directory is monitored) |
+| `$3` | event name(s)                           |
+| `$4` | filename (if a directory is monitored)  |
 
 #### Arguments examples
 
@@ -78,8 +88,10 @@ The following section describes how to configure the watch process.
 
 #### Watch configuration
 
-> The default values should be fine in most cases.</br>
-> See [inotify-tools](https://github.com/inotify-tools/inotify-tools) for more details about `inotifywait` available flags.
+> The default values should be fine in most cases.
+>
+> See [inotify-tools](https://github.com/inotify-tools/inotify-tools) for more details about
+> `inotifywait` available flags.
 >
 > Booleans can be set to any value to be considered true.
 
@@ -89,10 +101,8 @@ The following section describes how to configure the watch process.
 | INOTIFY_CFG_EVENTS     | `modify delete delete_self` | Space-separated list of events to watch                             |
 | INOTIFY_CFG_EXCLUDE    | -                           | Exclude a subset of files using a POSIX regex pattern               |
 | INOTIFY_CFG_EXCLUDEI   | -                           | Same as `INOTIFY_CFG_EXCLUDE` but case insensitive                  |
-| INOTIFY_CFG_FORMAT     | `%T %w %e %f`               | The formatting pattern used to emit events                          |
 | INOTIFY_CFG_INCLUDE    | -                           | Include a subset of files using a POSIX regex pattern               |
 | INOTIFY_CFG_INCLUDEI   | -                           | Same as `INOTIFY_CFG_INCLUDE` but case insensitive                  |
-| INOTIFY_CFG_NO_NEWLINE | false                       | (bool) Remove newline from the emmited event                        |
 | INOTIFY_CFG_QUIET      | true                        | (bool) Suppress inotifywait logging                                 |
 | INOTIFY_CFG_RECURSIVE  | false                       | (bool) Watch all subdirectories with unlimited depth                |
 | INOTIFY_CFG_TIMEFMT    | `%H:%M:%S`                  | The strftime-compatible pattern used to display %T in emitted event |
@@ -102,7 +112,9 @@ The following section describes how to configure the watch process.
 
 #### Kubernetes
 
-The following example defines a `Pod` containing an application container and an `inotify` sidecar that will be used to trigger a server reload whenever the mounted configuration file (here a shared `ConfigMap`) is updated.
+The following example defines a `Pod` containing an application container and an `inotify` sidecar
+that will be used to trigger a server reload whenever the mounted configuration file (here a shared
+`ConfigMap`) is updated.
 
 ```yaml
 ---
