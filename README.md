@@ -11,7 +11,7 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`0.3.0`, `0.3`, `latest`](https://github.com/devodev/docker-inotify)
+- [`0.4.0`, `0.4`, `latest`](https://github.com/devodev/docker-inotify)
 
 ## Quick reference (cont.)
 
