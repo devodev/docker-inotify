@@ -1,4 +1,4 @@
-FROM alpine:3.22.4
+FROM alpine:3.24.2
 
 RUN apk add -U \
         bash \
@@ -7,7 +7,9 @@ RUN apk add -U \
         netcat-openbsd \
         net-tools \
         tini \
-        wget
+        wget \
+    && apk upgrade -U \
+        zlib
 
 COPY scripts/ /
 COPY docker-entrypoint.sh /docker-entrypoint.sh
